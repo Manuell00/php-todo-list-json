@@ -6,7 +6,6 @@ import axios from 'axios';
 // Esporto
 export default {
 
-  // Inserisco i dati
   data() {
 
     return {
@@ -14,16 +13,17 @@ export default {
       thingsTodo: [],
 
       // Definisco il singolo commit da inserire
-      commit: "",
+      commit: {
+        todo: "Studiare php",
+      }
     };
   },
 
-  // Inserisco i metodi
   methods: {
     onSubmit() {
 
       // Inserisco l'URL da cui predo i dati php
-      const url = 'http://localhost:8888//php-todo-list-json/php/postThings.php';
+      const url = 'http://localhost:8888/php-todo-list-json/php/postThings.php';
 
       // Definisco una variabile che mi indichi il commit che sto inserendo
       const data = this.commit;
@@ -37,12 +37,13 @@ export default {
       // Eseguo la chimata POST
       axios.post(url, data, headers)
         .then(response => {
+          // Callback di successo: la richiesta POST è stata completata con successo
 
-
+          // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
           this.thingsTodo = response.data;
 
           // Azzero il commit una volta fatta la richiesta
-          this.commit = "";
+          this.commit.todo = "";
 
         })
         // Utilizzo la chiamata per l'errore
@@ -51,8 +52,14 @@ export default {
   },
 
   mounted() {
-    axios.get('http://localhost:8888//php-todo-list-json/php/index.php')
+    // Questo metodo viene chiamato automaticamente dopo che l'istanza del componente è stata montata nel DOM.
+
+    // Eseguo una chiamata GET al server per ottenere i dati iniziali della lista todo
+    axios.get('http://localhost:8888/php-todo-list-json/php/index.php')
       .then(response => {
+        // Callback di successo: la richiesta GET è stata completata con successo
+
+        // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
         this.thingsTodo = response.data;
       });
   }
@@ -71,14 +78,14 @@ export default {
       <!-- Creo una lista -->
       <ul>
         <li v-for="(thing, index) in thingsTodo" :key="index">
-          {{ thing }}
+          {{ thing.todo }}
         </li>
       </ul>
 
       <!-- Creo una form -->
       <form @submit.prevent="onSubmit">
-        <label for="name">Thing ToDo </label>
-        <input type="text" name="thing" id="thing" v-model="commit">
+        <label for="thing">Thing ToDo </label>
+        <input type="text" name="thing" id="thing" v-model="commit.todo">
         <br />
         <input type="submit" value="INSERT TODO">
       </form>
