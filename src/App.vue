@@ -45,7 +45,7 @@ export default {
           this.commit = "";
 
         })
-        // Utilizzo la cgiamata per l'errore
+        // Utilizzo la chiamata per l'errore
         .catch(error => console.error("error", error));
     }
   },
