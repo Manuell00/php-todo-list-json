@@ -1,7 +1,7 @@
 <?php
 
 // Permetto l'accesso ai dati dal dominio specificato
-header("Access-Control-Allow-Origin: http://localhost:5174");
+header("Access-Control-Allow-Origin: http://localhost:5175");
 header("Access-Control-Allow-Headers: X-Requested-With");
 
 // Imposto l'intestazione per indicare al client che la risposta è in formato JSON
@@ -11,21 +11,23 @@ header('Content-Type: application/json');
 $file = "data.json";
 
 // Ottengo l'indice dell'elemento da rimuovere inviato tramite richiesta POST
-$removeIndex = $_POST['commit']['index'];
+$removeIndex = $_POST;
 
 // Leggo i dati dal file JSON come stringa
 $dataStr = file_get_contents($file);
 
 // Decodifico la stringa JSON in una variabile
-$data = json_decode($dataStr);
+// Aggiungendo il parametro true alla funzione json_decode, si ottiene un array associativo invece di un oggetto stdClass, consentendo così l'utilizzo dell'operatore [] per l'aggiunta di nuovi dati.
+$data = json_decode($dataStr,true);
 
-// Rimuovo l'elemento dall'array utilizzando l'indice
-if (isset($data[$removeIndex])) {
-    unset($data[$removeIndex]);
+// Con array search trovo la posizione
+$key = array_search($removeIndex, $data);
+if ($key !== false) {
+    // Con unset lo rimuovo
+    unset($data[$key]);
+    // Riordino la lista
+    $data = array_values($data);
 }
-
-// Riordino gli indici dell'array
-$data = array_values($data);
 
 // Codifico i dati in formato JSON
 $encData = json_encode($data);

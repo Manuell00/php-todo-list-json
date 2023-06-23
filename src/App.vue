@@ -12,7 +12,6 @@ export default {
       // Definisco il singolo commit da inserire
       commit: {
         todo: "",
-        index: null  // Aggiungi l'indice come proprietà del commit
       }
     };
   },
@@ -47,33 +46,30 @@ export default {
         .catch(error => console.error("error", error));
     },
 
-    //   removeItem(index) {
-    //     // Assegna l'indice alla proprietà 'index' del commit
-    //     this.commit.index = index;
+    removeItem(index) {
+      // Inserisco l'URL da cui predo i dati php
+      const url = 'http://localhost:8888/php-todo-list-json/php/removeElement.php';
 
-    //     // Inserisco l'URL da cui predo i dati php
-    //     const url = 'http://localhost:8888/php-todo-list-json/php/removeElement.php';
+      // Definisco una variabile che mi indichi il commit che sto inserendo
+      const data = this.thingsTodo[index];
 
-    //     // Definisco una variabile che mi indichi il commit che sto inserendo
-    //     const data = this.commit;
+      // Definisco il metodo per utilizzare la chiamata POST
+      const headers = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      };
 
-    //     // Definisco il metodo per utilizzare la chiamata POST
-    //     const headers = {
-    //       headers: { 'Content-Type': 'multipart/form-data' }
-    //     };
+      // Inseriamo la chiamata axios qui per farla quando premiamo il bottone
+      // Eseguo la chimata POST, perchè in questo caso scriviamo
+      axios.post(url, data, headers)
+        .then(response => {
+          // Callback di successo: la richiesta POST è stata completata con successo
 
-    //     // Inseriamo la chiamata axios qui per farla quando premiamo il bottone
-    //     // Eseguo la chimata POST, perchè in questo caso scriviamo
-    //     axios.post(url, data, headers)
-    //       .then(response => {
-    //         // Callback di successo: la richiesta POST è stata completata con successo
-
-    //         // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
-    //         this.thingsTodo = response.data;
-    //       })
-    //       // Utilizzo la chiamata per l'errore
-    //       .catch(error => console.error("error", error));
-    //   }
+          // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
+          this.thingsTodo = response.data;
+        })
+        // Utilizzo la chiamata per l'errore
+        .catch(error => console.error("error", error));
+    }
   },
 
   mounted() {
@@ -102,8 +98,9 @@ export default {
       <!-- Creo una lista -->
       <ul>
         <li v-for="(thing, index) in thingsTodo" :key="index">
-          {{ thing.todo }}
-          <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+          {{ thing.todo }} {{ index }}
+          <button type="button" class="btn btn-danger" @click="removeItem(index)"><i
+              class="fa-solid fa-trash"></i></button>
           <hr>
         </li>
       </ul>

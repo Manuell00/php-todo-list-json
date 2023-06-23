@@ -1,7 +1,7 @@
 <?php
 
 // Permetto l'accesso ai dati dal dominio specificato
-header("Access-Control-Allow-Origin: http://localhost:5174");
+header("Access-Control-Allow-Origin: http://localhost:5175");
 header("Access-Control-Allow-Headers: X-Requested-With");
 
 // Imposto l'intestazione per indicare al client che la risposta è in formato JSON
@@ -17,7 +17,8 @@ $newThing = $_POST;
 $dataStr = file_get_contents($file);
 
 // Decodifico la stringa JSON in una variabile
-$data = json_decode($dataStr);
+// Aggiungendo il parametro true alla funzione json_decode, si ottiene un array associativo invece di un oggetto stdClass, consentendo così l'utilizzo dell'operatore [] per l'aggiunta di nuovi dati.
+$data = json_decode($dataStr,true);
 
 // Aggiungo i nuovi dati alla variabile $data
 $data[] = $newThing;
