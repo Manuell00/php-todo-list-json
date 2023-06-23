@@ -51,7 +51,7 @@ export default {
       const url = 'http://localhost:8888/php-todo-list-json/php/removeElement.php';
 
       // Definisco una variabile che mi indichi il commit che sto inserendo
-      const data = this.thingsTodo[index];
+      const data = index;
 
       // Definisco il metodo per utilizzare la chiamata POST
       const headers = {

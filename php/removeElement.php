@@ -20,14 +20,8 @@ $dataStr = file_get_contents($file);
 // Aggiungendo il parametro true alla funzione json_decode, si ottiene un array associativo invece di un oggetto stdClass, consentendo così l'utilizzo dell'operatore [] per l'aggiunta di nuovi dati.
 $data = json_decode($dataStr,true);
 
-// Con array search trovo la posizione
-$key = array_search($removeIndex, $data);
-if ($key !== false) {
-    // Con unset lo rimuovo
-    unset($data[$key]);
-    // Riordino la lista
-    $data = array_values($data);
-}
+array_splice($data, $removeIndex, 1);
+$data = array_values($data);
 
 // Codifico i dati in formato JSON
 $encData = json_encode($data);
