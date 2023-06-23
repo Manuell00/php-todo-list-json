@@ -1,7 +1,7 @@
 <?php
 
 // Permettiamo l'accesso ai dati dal nostro progetto Vue specificando l'indirizzo da cui viene caricato
-header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Origin: http://localhost:5174");
 header("Access-Control-Allow-Headers: X-Requested-With");
 header('Content-Type: application/json');
 	
