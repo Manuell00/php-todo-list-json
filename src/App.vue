@@ -98,7 +98,7 @@ export default {
       <!-- Creo una lista -->
       <ul>
         <li v-for="(thing, index) in thingsTodo" :key="index">
-          {{ thing.todo }} {{ index }}
+          {{ thing.todo }}
           <button type="button" class="btn btn-danger" @click="removeItem(index)"><i
               class="fa-solid fa-trash"></i></button>
           <hr>

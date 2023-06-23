@@ -12,6 +12,7 @@ $file = "data.json";
 
 // Ottengo l'indice dell'elemento da rimuovere inviato tramite richiesta POST
 $removeIndex = $_POST;
+$indexInteger = intval($removeIndex);
 
 // Leggo i dati dal file JSON come stringa
 $dataStr = file_get_contents($file);
@@ -20,7 +21,7 @@ $dataStr = file_get_contents($file);
 // Aggiungendo il parametro true alla funzione json_decode, si ottiene un array associativo invece di un oggetto stdClass, consentendo così l'utilizzo dell'operatore [] per l'aggiunta di nuovi dati.
 $data = json_decode($dataStr,true);
 
-array_splice($data, $removeIndex, 1);
+array_splice($data, $indexInteger, 1);
 $data = array_values($data);
 
 // Codifico i dati in formato JSON
