@@ -10,11 +10,9 @@ header('Content-Type: application/json');
 // Percorso del file contenente i dati JSON
 $file = "data.json";
 
-// Ottengo i dati inviati tramite richiesta POST
-$newThing = $_POST;
-
-// Aggiungo la chiave 'complete' con valore true ai nuovi dati
-$newThing['complete'] = false;
+// Ottengo l'indice dell'elemento da rimuovere inviato tramite richiesta POST
+$completeIndex = $_POST;
+$indexInteger = intval($completeIndex);
 
 // Leggo i dati dal file JSON come stringa
 $dataStr = file_get_contents($file);
@@ -23,8 +21,13 @@ $dataStr = file_get_contents($file);
 // Aggiungendo il parametro true alla funzione json_decode, si ottiene un array associativo invece di un oggetto stdClass, consentendo così l'utilizzo dell'operatore [] per l'aggiunta di nuovi dati.
 $data = json_decode($dataStr,true);
 
-// Aggiungo i nuovi dati alla variabile $data
-$data[] = $newThing;
+// Eseguo il toggle
+if ($data[$indexInteger]['complete'] === false) {
+    $data[$indexInteger]['complete'] = true;
+} else {
+    $data[$indexInteger]['complete'] = false;
+}
+
 
 // Codifico i dati in formato JSON
 $encData = json_encode($data);
@@ -34,5 +37,4 @@ file_put_contents($file, $encData);
 
 // Restituisco i dati codificati come risposta
 echo $encData;
-
 ?>

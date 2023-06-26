@@ -69,8 +69,32 @@ export default {
         })
         // Utilizzo la chiamata per l'errore
         .catch(error => console.error("error", error));
-    }
+    },
+    completeItem(index) {
+      // Inserisco l'URL da cui predo i dati php
+      const url = 'http://localhost:8888/php-todo-list-json/php/completeElement.php';
+
+      // Definisco una variabile che mi indichi il commit che sto inserendo
+      const data = index;
+      console.log(index);
+
+      // Definisco il metodo per utilizzare la chiamata POST
+      const headers = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      };
+
+      // Eseguo la chimata POST
+      axios.post(url, data, headers)
+        .then(response => {
+
+          // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
+          this.thingsTodo = response.data;
+        })
+        // Utilizzo la chiamata per l'errore
+        .catch(error => console.error("error", error));
+    },
   },
+
 
   mounted() {
     // Questo metodo viene chiamato automaticamente dopo che l'istanza del componente è stata montata nel DOM.
@@ -97,8 +121,9 @@ export default {
 
       <!-- Creo una lista -->
       <ul>
-        <li v-for="(thing, index) in thingsTodo" :key="index">
-          {{ thing.todo }}
+        <li :class="{ 'completed': thing.complete }" @click="completeItem(index)" v-for="(thing, index) in thingsTodo"
+          :key="index">
+          {{ thing.todo }} {{ index }}
           <button type="button" class="btn btn-danger" @click="removeItem(index)"><i
               class="fa-solid fa-trash"></i></button>
           <hr>
@@ -142,6 +167,10 @@ export default {
     border-radius: 10px;
     width: 30%;
     text-align: center;
+
+    .completed {
+      text-decoration: line-through;
+    }
 
     h1 {
       text-transform: uppercase;
