@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 $file = "data.json";
 
 // Ottengo l'indice dell'elemento da rimuovere inviato tramite richiesta POST
-$removeIndex = $_POST;
+$completeIndex = $_POST["index"];
 $indexInteger = intval($removeIndex);
 
 // Leggo i dati dal file JSON come stringa

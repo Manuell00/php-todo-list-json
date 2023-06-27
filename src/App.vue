@@ -46,12 +46,12 @@ export default {
         .catch(error => console.error("error", error));
     },
 
-    removeItem(index) {
+    removeItem(ind) {
       // Inserisco l'URL da cui predo i dati php
       const url = 'http://localhost:8888/php-todo-list-json/php/removeElement.php';
 
       // Definisco una variabile che mi indichi il commit che sto inserendo
-      const data = index;
+      const data = { index: ind };
 
       // Definisco il metodo per utilizzare la chiamata POST
       const headers = {
@@ -70,13 +70,12 @@ export default {
         // Utilizzo la chiamata per l'errore
         .catch(error => console.error("error", error));
     },
-    completeItem(index) {
+    completeItem(ind) {
       // Inserisco l'URL da cui predo i dati php
       const url = 'http://localhost:8888/php-todo-list-json/php/completeElement.php';
 
       // Definisco una variabile che mi indichi il commit che sto inserendo
-      const data = index;
-      console.log(index);
+      const data = { index: ind };
 
       // Definisco il metodo per utilizzare la chiamata POST
       const headers = {
@@ -103,9 +102,10 @@ export default {
     axios.get('http://localhost:8888/php-todo-list-json/php/index.php')
       .then(response => {
         // Callback di successo: la richiesta GET è stata completata con successo
+        const data = response.data;
 
         // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
-        this.thingsTodo = response.data;
+        this.thingsTodo = data;
       });
   }
 }
