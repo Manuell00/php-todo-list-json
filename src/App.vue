@@ -92,6 +92,29 @@ export default {
         // Utilizzo la chiamata per l'errore
         .catch(error => console.error("error", error));
     },
+
+    emptyList() {
+      // Inserisco l'URL da cui predo i dati php
+      const url = 'http://localhost:8888/php-todo-list-json/php/emptyList.php';
+
+      // Definisco il corpo della richiesta POST come un oggetto vuoto
+      const data = {};
+
+      // Definisco il metodo per utilizzare la chiamata POST
+      const headers = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      };
+
+      // Eseguo la chimata POST
+      axios.post(url, data, headers)
+        .then(response => {
+
+          // Aggiorno la variabile thingsTodo con i dati ricevuti dalla risposta
+          this.thingsTodo = response.data;
+        })
+        // Utilizzo la chiamata per l'errore
+        .catch(error => console.error("error", error));
+    }
   },
 
 
@@ -136,10 +159,16 @@ export default {
         <div class="insert">
           <div>
             <input type="text" name="thing" id="thing" placeholder="Inserisci elemento..." v-model="commit.todo">
-            <button class="btn" type="submit">Inserisci</button>
+            <button id="insert-button" class="btn" type="submit">Inserisci</button>
           </div>
         </div>
       </form>
+
+      <!-- Inserisco la seconda form -->
+      <form @submit.prevent="emptyList">
+        <button id="empty-button" class="btn btn-danger" type="submit">Svuota lista</button>
+      </form>
+
     </div>
   </div>
 </template>
@@ -185,18 +214,25 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      flex-direction: row;
+      gap: 15px;
 
       input {
         padding: 5px;
         border-radius: 10px;
       }
 
-      button {
+      #insert-button {
         background-color: #202355;
         border-color: orange;
         color: orange;
       }
+    }
+
+    #empty-button {
+      width: 55%;
+      margin: 0 auto;
+      margin-top: 20px;
     }
   }
 }
